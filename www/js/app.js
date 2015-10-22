@@ -53,7 +53,7 @@ angular.module('todo', ['ionic'])
   }
 })
 
-.controller('TodoCtrl', function($scope, $timeout, $ionicModal, Projects, $ionicSideMenuDelegate) {
+.controller('TodoCtrl', function($scope, $timeout, $ionicModal, Projects, $ionicSideMenuDelegate,$ionicPopup) {
 
   // A utility function for creating a new project
   // with the given projectTitle
@@ -92,6 +92,41 @@ angular.module('todo', ['ionic'])
   }, {
     scope: $scope
   });
+
+  $scope.onSwipeLeft = function(){
+    console.log('Swipe left');
+  };
+
+  $scope.deleteProject = function(index){
+
+  };
+
+  $scope.reorderItem = function(item, fromIndex, toIndex){
+
+        $scope.activeProject.tasks.splice(fromIndex, 1);
+        $scope.activeProject.tasks.splice(toIndex, 0, item);
+        Projects.save($scope.projects);     
+  };
+
+  $scope.deleteTask = function(index){
+    if(!$scope.activeProject) {
+      return;
+    }
+
+    var confirmPopup = $ionicPopup.confirm({
+     title: 'Delete Task',
+     template: 'Are you sure you want to delete this task?'
+   });
+
+    confirmPopup.then(function(res) {
+     if(res) {
+        $scope.activeProject.tasks.splice(index,1);
+        Projects.save($scope.projects);  
+     } else {
+         
+     }
+   });
+  }
 
   $scope.createTask = function(task) {
     if(!$scope.activeProject || !task) {

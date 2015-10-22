@@ -29,10 +29,13 @@
       <i class="icon ion-compose"></i>
     </button>
   </ion-header-bar>
-  <ion-content scroll="false">
-    <ion-list>
+  <ion-content scroll="true">
+    <ion-list show-delete="true" show-reorder="true">
       <ion-item ng-repeat="task in activeProject.tasks">
+      <ion-delete-button class="ion-minus-circled" ng-click="deleteTask($index)" on-swipe-left="onSwipeLeft()"></ion-delete-button>
         {{task.title}}
+        <ion-reorder-button class="ion-navicon" on-reorder="reorderItem(task, $fromIndex, $toIndex)"></ion-reorder-button>
+
       </ion-item>
     </ion-list>
   </ion-content>
